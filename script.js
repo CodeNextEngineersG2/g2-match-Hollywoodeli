@@ -42,7 +42,17 @@ var resetButton, musicButton;
      myImage = loadImage("assets/img/image.png");
    }
  */
+function loadImages(){
+  backImage = loadImages( "assets/img/back.png");
+  transitionImage1 = loadImages("assets/img/transitionImage1.png");
+  transitionImage2 = loadImages("assets/img/transitionImage2.png");
+  transitionImage3 = loadImages( "assets/img/transitionImage3.png");
+  sunImage = loadImages( "assets/img/sun.png");
+  moonImage =  loadImages( "assets/img/moon.png");
+  bolt = loadImages( "assets/img/bolt.png");
 
+
+}
 
 /*
  * function loadAnimations()
@@ -55,8 +65,10 @@ var resetButton, musicButton;
      myAnimation = loadAnimation(img1, img2, img3, img4);
    }
  */
-
-
+function loadAnimations(){
+  sunAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, sunImage);
+  moonImage = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, moonImage);
+}
 /*
  * function loadSounds()
  * Works very similarly to loadImages(), only for music and sound effects.
@@ -76,7 +88,11 @@ var resetButton, musicButton;
  * begin running until the assets are loaded and ready. Therefore, this function
  * is essentially a "pre-setup" function. 
  */
+function preload(){
+  loadImages();
+  loadAnimations();
 
+}
 
 /*
  * function setup()
@@ -84,7 +100,15 @@ var resetButton, musicButton;
  * Therefore, assets are assumed to have been loaded and ready before this
  * function is called.
  */
-
+function setup(){
+  gameScreen = createCanvas(790,370);
+  gameScreen.parent("#game-screen");
+  spriteWidth = 120;
+  spriteHeight = 168;
+  spriteX = 70;
+  spriteY = 95;
+  imageArray [backImage, sunImage, moonImage, transitionImage1, transitionImage2, transitionImage3]
+}
 
 /*
  * function draw()
@@ -120,7 +144,12 @@ var resetButton, musicButton;
  * Example of resizing one image:
    image.resize(40, 50);
  */
-
+function resizeImage(){
+  for(var i=0;i<imageArrray.length;i++){
+    imageArrray[i].resize(spriteWidth, spriteHeight);
+    
+  }
+}
 
 /*
  * function createSprites()
