@@ -42,14 +42,17 @@ var resetButton, musicButton;
      myImage = loadImage("assets/img/image.png");
    }
  */
-function loadImages(){
-  backImage = loadImages( "assets/img/back.png");
-  transitionImage1 = loadImages("assets/img/transitionImage1.png");
-  transitionImage2 = loadImages("assets/img/transitionImage2.png");
-  transitionImage3 = loadImages( "assets/img/transitionImage3.png");
-  sunImage = loadImages( "assets/img/sun.png");
-  moonImage =  loadImages( "assets/img/moon.png");
-  bolt = loadImages( "assets/img/bolt.png");
+function loadImages() {
+  backImage = loadImage("assets/img/back.png");
+  transitionImage1 = loadImage("assets/img/transition1.png");
+  transitionImage2 = loadImage("assets/img/transition2.png");
+  transitionImage3 = loadImage("assets/img/transition3.png");
+  sunImage = loadImage("assets/img/sun.png");
+  moonImage =  loadImage("assets/img/moon.png");
+  boltImage = loadImage("assets/img/bolt.png");
+  cloudImage = loadImage("assets/img/cloud.png");
+  smileyImage = loadImage("assets/img/smiley.png");
+  heartImage= loadImage("assets/img/heart.png");
 
 
 }
@@ -67,7 +70,14 @@ function loadImages(){
  */
 function loadAnimations(){
   sunAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, sunImage);
-  moonImage = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, moonImage);
+  moonAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, moonImage);
+  boltAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, boltImage);
+  cloudAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, cloudImage);
+  heartAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, heartImage);
+  smileyAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, smileyImage);
+
+
+
 }
 /*
  * function loadSounds()
@@ -107,13 +117,25 @@ function setup(){
   spriteHeight = 168;
   spriteX = 70;
   spriteY = 95;
-  imageArray [backImage, sunImage, moonImage, transitionImage1, transitionImage2, transitionImage3]
+  imageArray = [backImage, sunImage, moonImage, transitionImage1, transitionImage2, transitionImage3];
+  resizeImages();
+  createSprite();
+  spriteArray = [sunSprite1,sunSprite2,moonSprite1,moonSprite2,boltSprite1,boltSprite2,cloudSprite1,cloudSprite2,heartSprite1,heartSprite2,smileySprite1,smileySprite2]
+  addAnimations();
+  shuffle(spriteArray,true);
+  placeSprites();
+  spritesActive = true;
+
 }
 
 /*
  * function draw()
  */
+function draw(){
+  background(240,240,255);
+  drawSprites();
 
+}
 /*
  * function init()
  * Initializes various elements of the game. Called in both setup() and
@@ -144,9 +166,9 @@ function setup(){
  * Example of resizing one image:
    image.resize(40, 50);
  */
-function resizeImage(){
-  for(var i=0;i<imageArrray.length;i++){
-    imageArrray[i].resize(spriteWidth, spriteHeight);
+function resizeImages(){
+  for (var i=0; i<imageArray.length; i++) {
+    imageArray[i].resize(spriteWidth,spriteHeight);
     
   }
 }
@@ -173,7 +195,17 @@ function resizeImage(){
  * each animation's frameDelay, loop, and playing properties. Finally, this
  * function calls activateSprite(s) with each sprite as input.
  */
+function addAnimations{
+  var animation= [sunAnimation,sunAnimation,moonAnimation,moonAnimation,boltAnimation,boltAnimation,cloudAnimation,cloudAnimation,heartAnimation,heartAnimation,smileyAnimation,smileyAnimation,backAnimation,backAnimation];
+  for (var i = 0; i<spriteArray.length; i++){
+    spriteArray [i].animation.frameDelay=10;
+    spriteArray [i].animation.looping=false;
+    spriteArray [i].animation.playing=false;
 
+
+
+  }
+}
 
 /*
  * function placeSprites()
@@ -181,7 +213,19 @@ function resizeImage(){
  * pattern you like. For starters, try arranging the sprites in a simple
  * grid-like pattern (e.g., 2x2 if you only have four sprites).
  */
-
+function placeSprites(){
+  for (var i=0; i<spriteArray.length;i++){
+    spriteArray[i].position.x = spriteX;
+     spriteArray[i].position.y = spriteY;
+    if((i+1)%2 ==0){
+      spriteX =70
+      spriteY += spriteWidth +10;
+      }
+      else{
+        spriteX+= spriteWidth +10;
+    }
+  }
+}   
 
 /*
  * function activateSprite(s)
