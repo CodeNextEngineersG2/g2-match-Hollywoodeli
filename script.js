@@ -25,6 +25,7 @@ var flipSound, matchSound, nopeSound, winSound, loseSound, bgMusic;
 var firstsprite, secondsprite;
 var lives, matches;
 var spritesActive;
+var firstChoice, secondChoice;
 
 // UI variables
 var gameScreen;
@@ -117,9 +118,9 @@ function setup(){
   spriteHeight = 168;
   spriteX = 70;
   spriteY = 95;
-  imageArray = [backImage, sunImage, moonImage, transitionImage1, transitionImage2, transitionImage3];
+  imageArray = [backImage, sunImage, moonImage,cloudImage, heartImage, smileyImage, boltImage, transitionImage1, transitionImage2, transitionImage3];
   resizeImages();
-  createSprite();
+  createSprites();
   spriteArray = [sunSprite1,sunSprite2,moonSprite1,moonSprite2,boltSprite1,boltSprite2,cloudSprite1,cloudSprite2,heartSprite1,heartSprite2,smileySprite1,smileySprite2]
   addAnimations();
   shuffle(spriteArray,true);
@@ -168,6 +169,7 @@ function draw(){
  */
 function resizeImages(){
   for (var i=0; i<imageArray.length; i++) {
+
     imageArray[i].resize(spriteWidth,spriteHeight);
     
   }
@@ -185,7 +187,20 @@ function resizeImages(){
      mySprite = createSprite(0, 0, spriteWidth, spriteHeight);
    }
  */
-
+ function createSprites(){
+  sunSprite1 = createSprite(0,0, spriteWidth, spriteHeight);
+  sunSprite2 = createSprite(0,0, spriteWidth, spriteHeight);
+  moonSprite1 = createSprite(0,0, spriteWidth, spriteHeight);
+  moonSprite2 = createSprite(0,0, spriteWidth,spriteHeight);
+  boltSprite1 = createSprite(0,0, spriteWidth, spriteHeight);
+  boltSprite2 = createSprite(0,0, spriteWidth, spriteHeight);
+  cloudSprite1 = createSprite(0,0, spriteWidth, spriteHeight);
+  cloudSprite2 = createSprite(0,0, spriteWidth, spriteHeight);
+  heartSprite1 = createSprite(0,0, spriteWidth, spriteHeight);
+  heartSprite2 = createSprite(0,0, spriteWidth, spriteHeight);
+  smileySprite1 = createSprite(0,0, spriteWidth, spriteHeight);
+  smileySprite2 = createSprite(0,0, spriteWidth, spriteHeight);
+ }
 
 /*
  * function addAnimations()
@@ -195,12 +210,14 @@ function resizeImages(){
  * each animation's frameDelay, loop, and playing properties. Finally, this
  * function calls activateSprite(s) with each sprite as input.
  */
-function addAnimations{
-  var animation= [sunAnimation,sunAnimation,moonAnimation,moonAnimation,boltAnimation,boltAnimation,cloudAnimation,cloudAnimation,heartAnimation,heartAnimation,smileyAnimation,smileyAnimation,backAnimation,backAnimation];
+function addAnimations(){
+  var animations = [sunAnimation,sunAnimation,moonAnimation,moonAnimation,boltAnimation,boltAnimation,cloudAnimation,cloudAnimation,heartAnimation,heartAnimation,smileyAnimation,smileyAnimation];
   for (var i = 0; i<spriteArray.length; i++){
-    spriteArray [i].animation.frameDelay=10;
-    spriteArray [i].animation.looping=false;
-    spriteArray [i].animation.playing=false;
+    console.log(spriteArray[0]);
+    spriteArray[i].addAnimation("flip", animations[i]);
+    spriteArray[i].animation.frameDelay=10;
+    spriteArray[i].animation.looping=false;
+    spriteArray[i].animation.playing=false;
 
 
 
@@ -217,7 +234,7 @@ function placeSprites(){
   for (var i=0; i<spriteArray.length;i++){
     spriteArray[i].position.x = spriteX;
      spriteArray[i].position.y = spriteY;
-    if((i+1)%2 ==0){
+    if((i+1)%6 ==0){
       spriteX =70
       spriteY += spriteWidth +10;
       }
@@ -238,8 +255,22 @@ function placeSprites(){
  * spriteOne and spriteTwo to sprites in the order tht they are clicked. When
  * two sprites have been clicked, the function calls checkMatch().
  */
+function activeSprites(s){
+  s.onMousePressed = function() {
+    s.animation.getFrame();
+    s.animation.getLastFrame();
+    if (firstChoice == undefined) {
+      firstChoice = s;
+      s.animation.goToFrame(s.animation.getLastFrame());
 
+    }
+    else if(s != firstChoice){
+      secondChoice = s;
+      s.animation.goToFrame(s.animation.getLastFrame());
 
+    }
+  }
+}
 
 /*
  * function checkMatch()
